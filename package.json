@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "add": "^2.0.6",
     "antd": "^4.18.2",
+    "gh-pages": "^3.2.3",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-datasheet": "^1.4.9",
@@ -20,11 +21,14 @@
     "yarn": "^1.22.17"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "http://blog.gosheepstudio.com/map-simulator/",
   "eslintConfig": {
     "extends": [
       "react-app",
