@@ -77,7 +77,9 @@ export default function TableInput({ onSubmit }) {
   }, [grid]);
 
   function save(grid) {
-    localStorage.setItem(new Date().toLocaleString(), JSON.stringify(grid));
+    const name = window.prompt("请输入记录名称");
+    console.log("🚀 ~ file: Table.js ~ line 81 ~ save ~ name", name);
+    localStorage.setItem(`[${new Date().toLocaleString()}] ${name || ""}`, JSON.stringify(grid));
     setNum(num + 1);
   }
   function load(v) {
@@ -96,6 +98,37 @@ export default function TableInput({ onSubmit }) {
     setNum(0);
     setRecords([]);
   }
+  function resetData() {
+    setGrid(
+      gridComputed.map((row, x) => {
+        if (x > 0) {
+          return row.map((col, y) => {
+            if (y < row.length - 1) {
+              return INIT[x][y];
+            }
+            return col;
+          });
+        }
+        return row;
+      })
+    );
+  }
+  function resetColor() {
+    setGrid(
+      gridComputed.map((row, x) => {
+        if (x > 0) {
+          return row.map((col, y) => {
+            if (y === row.length - 1) {
+              return INIT[x][y];
+            } else {
+              return col;
+            }
+          });
+        }
+        return row;
+      })
+    );
+  }
   return (
     <div>
       <h1>
@@ -105,14 +138,17 @@ export default function TableInput({ onSubmit }) {
       {!expend && (
         <>
           <Space>
-            <Button onClick={() => changeGrid(INIT)} danger type="primary">
-              重置表格
+            <Button onClick={() => resetData()} danger type="primary">
+              重置概率
+            </Button>
+            <Button onClick={() => resetColor()} danger type="primary">
+              重置颜色
             </Button>
             <Button onClick={() => clear()} danger type="primary">
-              清空本地
+              清空存档
             </Button>
             <Button onClick={() => save(grid)} type="primary">
-              保存到本地
+              保存
             </Button>
             <Button onClick={submit} type="primary">
               生成地图

@@ -15,7 +15,6 @@ export default function Map({ data, showLabel, rowCount }) {
     const type = data[0].slice(1, 9);
 
     function getType(x, y) {
-      console.log("🚀 ~ file: Map.js ~ line 18 ~ getType ~ x, y", x, y);
       let probability = [];
       let total = 100;
       if (x === 0 && y === 0) {
@@ -24,7 +23,6 @@ export default function Map({ data, showLabel, rowCount }) {
         const neighbor1 = y > 0 && res[x][y - 1]?.index;
         const neighbor2 = x > 0 && res[x - 1][y]?.index;
         const neighbor3 = x > 0 && res[x - 1][y + 1]?.index;
-        console.log(neighbor1, neighbor2, neighbor3, data[0][neighbor1]?.value, data[0][neighbor2]?.value, data[0][neighbor3]?.value);
 
         total = 0;
         for (let index = 1; index <= 8; index++) {
@@ -33,13 +31,11 @@ export default function Map({ data, showLabel, rowCount }) {
           const v2 = neighbor2 ? +data[neighbor2][index].value : 0;
           const v3 = neighbor3 ? +data[neighbor3][index].value : 0;
           const value = base + v1 + v2 + v3;
-          console.log(base, v1, v2, v3);
           total += value;
           probability.push({ value });
         }
       }
 
-      console.log("🚀 ~ file: Map.js ~ line 46 ~ getType ~ probability", probability)
       const random = Math.ceil(Math.random() * total);
 
       let sum = 0;
