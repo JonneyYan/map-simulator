@@ -5,7 +5,7 @@ import Chart from "./charts";
 import MapItem from "./MapItem";
 
 export default function Map({ data, showLabel, rowCount }) {
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.5);
   const [hexagonMap, statics] = useMemo(() => {
     const statics = {};
     if (data.length === 0) {
@@ -15,6 +15,7 @@ export default function Map({ data, showLabel, rowCount }) {
     const type = data[0].slice(1, 9);
 
     function getType(x, y) {
+      console.log("🚀 ~ file: Map.js ~ line 18 ~ getType ~ x, y", x, y);
       let probability = [];
       let total = 100;
       if (x === 0 && y === 0) {
@@ -23,18 +24,22 @@ export default function Map({ data, showLabel, rowCount }) {
         const neighbor1 = y > 0 && res[x][y - 1]?.index;
         const neighbor2 = x > 0 && res[x - 1][y]?.index;
         const neighbor3 = x > 0 && res[x - 1][y + 1]?.index;
+        console.log(neighbor1, neighbor2, neighbor3, data[0][neighbor1]?.value, data[0][neighbor2]?.value, data[0][neighbor3]?.value);
 
         total = 0;
-        for (let index = 1; index < data[1].length - 2; index++) {
-          const v1 = neighbor1 ? data[neighbor1][index].value : 0;
-          const v2 = neighbor2 ? data[neighbor2][index].value : 0;
-          const v3 = neighbor3 ? data[neighbor3][index].value : 0;
-          const value = v1 + v2 + v3;
+        for (let index = 1; index <= 8; index++) {
+          const base = +data[1][index].value;
+          const v1 = neighbor1 ? +data[neighbor1][index].value : 0;
+          const v2 = neighbor2 ? +data[neighbor2][index].value : 0;
+          const v3 = neighbor3 ? +data[neighbor3][index].value : 0;
+          const value = base + v1 + v2 + v3;
+          console.log(base, v1, v2, v3);
           total += value;
           probability.push({ value });
         }
       }
 
+      console.log("🚀 ~ file: Map.js ~ line 46 ~ getType ~ probability", probability)
       const random = Math.ceil(Math.random() * total);
 
       let sum = 0;
@@ -47,9 +52,9 @@ export default function Map({ data, showLabel, rowCount }) {
       }
     }
 
-    times(rowCount).forEach((x) => {
+    for (let x = 0; x < rowCount; x++) {
       res[x] = [];
-      times(rowCount).forEach((y) => {
+      for (let y = 0; y < rowCount; y++) {
         const item = {
           vector: [x, y],
           ...getType(x, y),
@@ -58,9 +63,9 @@ export default function Map({ data, showLabel, rowCount }) {
           color: item.color,
           value: statics[item.value]?.value ? statics[item.value].value + 1 : 1,
         };
-        res[x][y] = item;
-      });
-    });
+        res[x][y] = item
+      }
+    }
 
     return [res, statics];
   }, [data, rowCount]);
@@ -69,7 +74,7 @@ export default function Map({ data, showLabel, rowCount }) {
       <div className="statics">
         <Chart statics={statics} />
         缩放
-        <Slider style={{ width: "200px" }} max={1} min={0.2} step={0.1} value={scale} onChange={setScale} />
+        <Slider style={{ width: "200px" }} max={1} min={0.05} step={0.05} value={scale} onChange={setScale} />
       </div>
       <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
         <MapItem hexagonMap={hexagonMap} showLabel={showLabel} />

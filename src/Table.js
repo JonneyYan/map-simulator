@@ -88,7 +88,7 @@ export default function TableInput({ onSubmit }) {
     setGrid(g);
   }
   function submit() {
-    onSubmit(gridComputed, count);
+    onSubmit({ ...gridComputed }, count);
   }
 
   function clear() {

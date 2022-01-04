@@ -1,43 +1,41 @@
 import React from "react";
 import styled from "styled-components";
-
 const Hexagon = styled.div`
-  width: 40px;
-  height: 21px;
+  width: 100px;
+  height: 55px;
   background: ${(props) => props.color || "palevioletred"};
   position: relative;
-  margin: 0 2px;
+  margin: 0 5px;
 
   &:before {
     content: "";
     position: absolute;
-    top: -10px;
+    top: -25px;
     left: 0;
     width: 0;
     height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 10px solid ${(props) => props.color || "palevioletred"};
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 25px solid ${(props) => props.color || "palevioletred"};
   }
   &:after {
     content: "";
     position: absolute;
-    bottom: -10px;
+    bottom: -25px;
     left: 0;
     width: 0;
     height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 10px solid ${(props) => props.color || "palevioletred"};
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 25px solid ${(props) => props.color || "palevioletred"};
   }
 `;
-
 const Row = styled.div`
   width: 200000000px;
-  margin: 15px 0;
+  margin: 35px 0;
   display: flex;
   &:nth-child(2n) {
-    margin-left: 22px;
+    margin-left: 50px;
   }
 `;
 function MapItem({ hexagonMap, showLabel }) {
