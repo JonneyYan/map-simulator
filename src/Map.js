@@ -26,11 +26,11 @@ export default function Map({ data, showLabel, rowCount }) {
 
         total = 0;
         for (let index = 1; index <= 8; index++) {
-          const base = +data[1][index].value;
+          // const base = +data[1][index].value;
           const v1 = neighbor1 ? +data[neighbor1][index].value : 0;
           const v2 = neighbor2 ? +data[neighbor2][index].value : 0;
           const v3 = neighbor3 ? +data[neighbor3][index].value : 0;
-          const value = base + v1 + v2 + v3;
+          const value = v1 + v2 + v3;
           total += value;
           probability.push({ value });
         }
