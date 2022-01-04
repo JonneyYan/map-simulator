@@ -8,24 +8,25 @@ const { Option } = Select;
 const INIT = [
   [
     { readOnly: true, value: "" },
-    { value: "平原", readOnly: true, color: "red", index: 1 },
-    { value: "山丘", readOnly: true, color: "olive", index: 2 },
-    { value: "沙漠", readOnly: true, color: "gold", index: 3 },
-    { value: "湖泊", readOnly: true, color: "blue", index: 4 },
-    { value: "草原", readOnly: true, color: "lime", index: 5 },
-    { value: "林地", readOnly: true, color: "darkgreen", index: 6 },
-    { value: "雪地", readOnly: true, color: "navy", index: 7 },
-    { value: "冰川", readOnly: true, color: "purple", index: 8 },
+    { value: "平原", readOnly: true, index: 1 },
+    { value: "山丘", readOnly: true, index: 2 },
+    { value: "沙漠", readOnly: true, index: 3 },
+    { value: "湖泊", readOnly: true, index: 4 },
+    { value: "草原", readOnly: true, index: 5 },
+    { value: "林地", readOnly: true, index: 6 },
+    { value: "雪地", readOnly: true, index: 7 },
+    { value: "冰川", readOnly: true, index: 8 },
     { value: "概率合计", readOnly: true },
+    { value: "颜色", readOnly: true },
   ],
-  [{ readOnly: true, value: "平原", color: "red" }, { value: 50 }, { value: 10 }, { value: 10 }, { value: 15 }, { value: 5 }, { value: 5 }, { value: 3 }, { value: 2 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "山丘", color: "olive" }, { value: 20 }, { value: 40 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 5 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "沙漠", color: "gold" }, { value: 20 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "湖泊", color: "blue" }, { value: 15 }, { value: 10 }, { value: 10 }, { value: 50 }, { value: 5 }, { value: 5 }, { value: 0 }, { value: 5 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "草原", color: "green" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "林地", color: "darkgreen" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 40 }, { value: 4 }, { value: 1 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "雪地", color: "navy" }, { value: 20 }, { value: 5 }, { value: 0 }, { value: 5 }, { value: 5 }, { value: 5 }, { value: 40 }, { value: 20 }, { readOnly: true, value: 0 }],
-  [{ readOnly: true, value: "冰川", color: "purple" }, { value: 20 }, { value: 15 }, { value: 0 }, { value: 15 }, { value: 0 }, { value: 5 }, { value: 20 }, { value: 25 }, { readOnly: true, value: 0 }],
+  [{ readOnly: true, value: "平原" }, { value: 50 }, { value: 10 }, { value: 10 }, { value: 15 }, { value: 5 }, { value: 5 }, { value: 3 }, { value: 2 }, { readOnly: true, value: 0 }, { value: "red" }],
+  [{ readOnly: true, value: "山丘" }, { value: 20 }, { value: 40 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 5 }, { readOnly: true, value: 0 }, { value: "olive" }],
+  [{ readOnly: true, value: "沙漠" }, { value: 20 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }, { value: "gold" }],
+  [{ readOnly: true, value: "湖泊" }, { value: 15 }, { value: 10 }, { value: 10 }, { value: 50 }, { value: 5 }, { value: 5 }, { value: 0 }, { value: 5 }, { readOnly: true, value: 0 }, { value: "blue" }],
+  [{ readOnly: true, value: "草原" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }, { value: "green" }],
+  [{ readOnly: true, value: "林地" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 40 }, { value: 4 }, { value: 1 }, { readOnly: true, value: 0 }, { value: "darkgreen" }],
+  [{ readOnly: true, value: "雪地" }, { value: 20 }, { value: 5 }, { value: 0 }, { value: 5 }, { value: 5 }, { value: 5 }, { value: 40 }, { value: 20 }, { readOnly: true, value: 0 }, { value: "navy" }],
+  [{ readOnly: true, value: "冰川" }, { value: 20 }, { value: 15 }, { value: 0 }, { value: 15 }, { value: 0 }, { value: 5 }, { value: 20 }, { value: 25 }, { readOnly: true, value: 0 }, { value: "purple" }],
 ];
 export default function TableInput({ onSubmit }) {
   let initialGrid = INIT;
@@ -39,7 +40,6 @@ export default function TableInput({ onSubmit }) {
   useEffect(() => {
     if (num > 0) {
       const res = [];
-      console.log("🚀 ~ file: Table.js ~ line 41 ~ useEffect ~ localStorage.length", localStorage.length);
       for (let index = 0; index < localStorage.length; index++) {
         const key = localStorage.key(index);
         res.push({ name: key, value: JSON.parse(localStorage.getItem(key)) });
@@ -50,21 +50,27 @@ export default function TableInput({ onSubmit }) {
   }, [num]);
 
   const gridComputed = useMemo(() => {
-    return grid.map((row, index) => {
-      if (index === 0) {
-        return row;
-      }
+    return grid.map((row, i) => {
       return row.map((col, j) => {
-        if (j !== row.length - 1) {
-          return col;
-        } else {
+        // total column
+        if (j === row.length - 2 && i !== 0) {
           let total;
           try {
-            total = row.slice(1, row.length - 1).reduce((s, c) => s + +c.value, 0);
+            total = row.slice(1, row.length - 2).reduce((s, c) => s + +c.value, 0);
           } catch (error) {
             total = "error";
           }
           return { ...col, value: total };
+        } else if (j < row.length - 2) {
+          let color = "";
+          if (i === 0) {
+            color = grid[j][row.length - 1].value;
+          } else if (j === 0) {
+            color = grid[i][row.length - 1].value;
+          }
+          return { ...col, color };
+        } else {
+          return { ...col };
         }
       });
     });
@@ -82,7 +88,7 @@ export default function TableInput({ onSubmit }) {
     setGrid(g);
   }
   function submit() {
-    onSubmit(grid, count);
+    onSubmit(gridComputed, count);
   }
 
   function clear() {
@@ -133,7 +139,7 @@ export default function TableInput({ onSubmit }) {
                 return <span style={{ color: cell.color }}>{cell.value}</span>;
               }}
               onCellsChanged={(changes) => {
-                const newGrid = grid.map((row) => [...row]);
+                const newGrid = gridComputed.map((row) => [...row]);
                 changes.forEach(({ cell, row, col, value }) => {
                   newGrid[row][col] = { ...newGrid[row][col], value };
                 });
