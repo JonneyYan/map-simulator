@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-const Hexagon = styled.div`
+
+const HexagonWrapper = styled.div`
   width: 100px;
   height: 55px;
   background: ${(props) => props.color || "palevioletred"};
@@ -38,24 +39,32 @@ const Row = styled.div`
     margin-left: 50px;
   }
 `;
-function MapItem({ hexagonMap, showLabel }) {
+const Hexagon = React.memo(({ item, hidden, showLabel }) => {
+  return (
+    <HexagonWrapper color={!hidden ? item.color : "white"}>
+      {showLabel && (
+        <>
+          <div className="map-label">{item.value}</div>
+          <div className="map-label">
+            [{item.vector[0]}, {item.vector[1]}]
+          </div>
+        </>
+      )}
+    </HexagonWrapper>
+  );
+});
+function MapItem({ hexagonMap, showLabel, selected }) {
+  if (!hexagonMap) {
+    return null;
+  }
   return (
     <div>
       {hexagonMap?.map((row, x) => {
         return (
           <Row key={x}>
-            {row.map((item) => (
-              <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} color={item.color}>
-                {showLabel && (
-                  <>
-                    <div className="map-label">{item.value}</div>
-                    <div className="map-label">
-                      [{item.vector[0]}, {item.vector[1]}]
-                    </div>
-                  </>
-                )}
-              </Hexagon>
-            ))}
+            {row.map((item) => {
+              return <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} hidden={!selected.includes(item.index)} />;
+            })}
           </Row>
         );
       })}

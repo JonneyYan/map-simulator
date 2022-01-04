@@ -19,14 +19,14 @@ const INIT = [
     { value: "概率合计", readOnly: true },
     { value: "颜色", readOnly: true },
   ],
-  [{ readOnly: true, value: "平原" }, { value: 50 }, { value: 10 }, { value: 10 }, { value: 15 }, { value: 5 }, { value: 5 }, { value: 3 }, { value: 2 }, { readOnly: true, value: 0 }, { value: "red" }],
-  [{ readOnly: true, value: "山丘" }, { value: 20 }, { value: 40 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 5 }, { readOnly: true, value: 0 }, { value: "olive" }],
-  [{ readOnly: true, value: "沙漠" }, { value: 20 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }, { value: "gold" }],
+  [{ readOnly: true, value: "平原" }, { value: 50 }, { value: 10 }, { value: 10 }, { value: 15 }, { value: 5 }, { value: 5 }, { value: 3 }, { value: 2 }, { readOnly: true, value: 0 }, { value: "#995500" }],
+  [{ readOnly: true, value: "山丘" }, { value: 20 }, { value: 40 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 5 }, { value: 5 }, { readOnly: true, value: 0 }, { value: "#2f4455" }],
+  [{ readOnly: true, value: "沙漠" }, { value: 20 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }, { value: "#baad80" }],
   [{ readOnly: true, value: "湖泊" }, { value: 15 }, { value: 10 }, { value: 10 }, { value: 50 }, { value: 5 }, { value: 5 }, { value: 0 }, { value: 5 }, { readOnly: true, value: 0 }, { value: "blue" }],
-  [{ readOnly: true, value: "草原" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }, { value: "green" }],
-  [{ readOnly: true, value: "林地" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 40 }, { value: 4 }, { value: 1 }, { readOnly: true, value: 0 }, { value: "darkgreen" }],
-  [{ readOnly: true, value: "雪地" }, { value: 20 }, { value: 5 }, { value: 0 }, { value: 5 }, { value: 5 }, { value: 5 }, { value: 40 }, { value: 20 }, { readOnly: true, value: 0 }, { value: "navy" }],
-  [{ readOnly: true, value: "冰川" }, { value: 20 }, { value: 15 }, { value: 0 }, { value: 15 }, { value: 0 }, { value: 5 }, { value: 20 }, { value: 25 }, { readOnly: true, value: 0 }, { value: "purple" }],
+  [{ readOnly: true, value: "草原" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 10 }, { value: 40 }, { value: 10 }, { value: 0 }, { value: 0 }, { readOnly: true, value: 0 }, { value: "#415644" }],
+  [{ readOnly: true, value: "林地" }, { value: 20 }, { value: 10 }, { value: 10 }, { value: 5 }, { value: 10 }, { value: 40 }, { value: 4 }, { value: 1 }, { readOnly: true, value: 0 }, { value: "#59877e" }],
+  [{ readOnly: true, value: "雪地" }, { value: 20 }, { value: 5 }, { value: 0 }, { value: 5 }, { value: 5 }, { value: 5 }, { value: 40 }, { value: 20 }, { readOnly: true, value: 0 }, { value: "#faff11" }],
+  [{ readOnly: true, value: "冰川" }, { value: 20 }, { value: 15 }, { value: 0 }, { value: 15 }, { value: 0 }, { value: 5 }, { value: 20 }, { value: 25 }, { readOnly: true, value: 0 }, { value: "#f7f7f7" }],
 ];
 export default function TableInput({ onSubmit }) {
   let initialGrid = INIT;

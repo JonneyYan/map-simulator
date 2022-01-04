@@ -1,10 +1,22 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Button, Select, Slider } from "antd";
+import { Button, Checkbox, Slider } from "antd";
 import { times } from "lodash";
 import Chart from "./charts";
 import MapItem from "./MapItem";
 
+const typeOptions = [
+  { label: "平原", value: 1 },
+  { label: "山丘", value: 2 },
+  { label: "沙漠", value: 3 },
+  { label: "湖泊", value: 4 },
+  { label: "草原", value: 5 },
+  { label: "林地", value: 6 },
+  { label: "雪地", value: 7 },
+  { label: "冰川", value: 8 },
+];
+
 export default function Map({ data, showLabel, rowCount }) {
+  const [selected, setSelected] = useState(typeOptions.map((i) => i.value));
   const [scale, setScale] = useState(0.5);
   const [hexagonMap, statics] = useMemo(() => {
     const statics = {};
@@ -59,7 +71,7 @@ export default function Map({ data, showLabel, rowCount }) {
           color: item.color,
           value: statics[item.value]?.value ? statics[item.value].value + 1 : 1,
         };
-        res[x][y] = item
+        res[x][y] = item;
       }
     }
 
@@ -72,8 +84,14 @@ export default function Map({ data, showLabel, rowCount }) {
         缩放
         <Slider style={{ width: "200px" }} max={1} min={0.05} step={0.05} value={scale} onChange={setScale} />
       </div>
+
+      <div>
+        <Checkbox.Group options={typeOptions} value={selected} onChange={setSelected} />
+        <Button onClick={() => setSelected(typeOptions.map((i) => i.value))}>全选</Button>
+        <Button onClick={() => setSelected(typeOptions.filter((i) => !selected.includes(i.value)).map((i) => i.value))}>反选</Button>
+      </div>
       <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
-        <MapItem hexagonMap={hexagonMap} showLabel={showLabel} />
+        <MapItem hexagonMap={hexagonMap} showLabel={showLabel} selected={selected} />
       </div>
     </div>
   );
