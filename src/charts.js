@@ -7,7 +7,7 @@ export default function Chart({ statics }) {
   const data = Object.keys(statics || {}).map((key) => {
     return {
       type: key,
-      value: statics[key].value,
+      value: statics[key].sum,
       color: statics[key].color,
     };
   });

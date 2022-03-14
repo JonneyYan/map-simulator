@@ -4,9 +4,11 @@ import Map from "./Map";
 import { Button, Select } from "antd";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [probability, setProbability] = useState(null);
   const [rowCount, setRowCount] = useState(0);
   const [showLabel, setShowLabel] = useState(false);
+  const [coord, setCoord] = useState({});
+
   return (
     <div style={{ margin: "20px" }}>
       <h1 className="title">Map Simulator</h1>
@@ -16,13 +18,14 @@ function App() {
         </Button>
         <hr style={{ margin: "20px" }} />
         <TableInput
-          onSubmit={(d, rowCount) => {
-            setData(d);
+          onSubmit={(coord, d, rowCount) => {
+            setCoord(coord);
+            setProbability(d);
             setRowCount(rowCount);
           }}
         />
       </div>
-      <Map data={data} showLabel={showLabel} rowCount={rowCount} />
+      {probability && <Map coord={coord} probability={probability} mapSize={rowCount} showLabel={showLabel} />}
     </div>
   );
 }

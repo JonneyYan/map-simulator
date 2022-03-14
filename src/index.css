@@ -228,6 +228,9 @@ pre {
   width: 60px;
   margin: auto;
   display: block;
+  position: absolute;
+  top: 50px;
+  left: 20px;
 }
 .statics {
   position: absolute;

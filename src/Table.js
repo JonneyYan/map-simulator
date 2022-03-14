@@ -32,7 +32,9 @@ export default function TableInput({ onSubmit }) {
   let initialGrid = INIT;
 
   const [grid, setGrid] = useState(initialGrid);
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(20);
+  const [coordX, setCoordX] = useState(50);
+  const [coordY, setCoordY] = useState(50);
   const [records, setRecords] = useState([]);
   const [num, setNum] = useState(localStorage.length);
   const [expend, setExpend] = useState(false);
@@ -42,7 +44,11 @@ export default function TableInput({ onSubmit }) {
       const res = [];
       for (let index = 0; index < localStorage.length; index++) {
         const key = localStorage.key(index);
-        res.push({ name: key, value: JSON.parse(localStorage.getItem(key)) });
+        try {
+          res.push({ name: key, value: JSON.parse(localStorage.getItem(key)) });
+        } catch (error) {
+          console.log("🚀 ~ file: Table.js ~ line 50 ~ useEffect ~ error", error);
+        }
       }
 
       setRecords(res);
@@ -78,7 +84,6 @@ export default function TableInput({ onSubmit }) {
 
   function save(grid) {
     const name = window.prompt("请输入记录名称");
-    console.log("🚀 ~ file: Table.js ~ line 81 ~ save ~ name", name);
     localStorage.setItem(`[${new Date().toLocaleString()}] ${name || ""}`, JSON.stringify(grid));
     setNum(num + 1);
   }
@@ -90,8 +95,12 @@ export default function TableInput({ onSubmit }) {
     setGrid(g);
   }
   function submit() {
-    onSubmit({ ...gridComputed }, count);
+    onSubmit({ x: coordX, y: coordY }, { ...gridComputed }, count);
   }
+
+  useEffect(() => {
+    submit();
+  }, []);
 
   function clear() {
     localStorage.clear();
@@ -150,9 +159,6 @@ export default function TableInput({ onSubmit }) {
             <Button onClick={() => save(grid)} type="primary">
               保存
             </Button>
-            <Button onClick={submit} type="primary">
-              生成地图
-            </Button>
           </Space>
           <div style={{ marginBottom: "10px" }}>
             <h3>本地保存记录：{num} 条, 下方选择框可切换本地保存的数据</h3>
@@ -165,7 +171,16 @@ export default function TableInput({ onSubmit }) {
             </Select>
           </div>
           <div style={{ marginBottom: "10px" }}>
-            行数： <InputNumber value={count} onChange={setCount} />
+            探索范围： <InputNumber value={count} onChange={setCount} /> 行
+            <div>
+              输入坐标： X：
+              <InputNumber value={coordX} onChange={setCoordX} />
+              Y：
+              <InputNumber value={coordY} onChange={setCoordY} />
+              <Button onClick={submit} type="primary">
+                探索该坐标
+              </Button>
+            </div>
           </div>
           <div style={{ width: "800px" }}>
             <ReactDataSheet

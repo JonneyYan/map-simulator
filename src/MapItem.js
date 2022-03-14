@@ -3,48 +3,65 @@ import styled from "styled-components";
 
 const HexagonWrapper = styled.div`
   width: 100px;
-  height: 55px;
-  background: ${(props) => props.color || "palevioletred"};
+  height: 100px;
   position: relative;
-  margin: 0 5px;
+  overflow: hidden;
 
-  &:before {
-    content: "";
-    position: absolute;
-    top: -25px;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 25px solid ${(props) => props.color || "palevioletred"};
+  img {
+    width: 100%;
   }
-  &:after {
-    content: "";
+
+  .hex {
+    width: 100px;
+    height: 39px;
+    background: #d9d9d9;
     position: absolute;
-    bottom: -25px;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-top: 25px solid ${(props) => props.color || "palevioletred"};
+    margin: 0 1px;
+    top: 40px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 20px solid ${(props) => props.color || "palevioletred"};
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-top: 20px solid ${(props) => props.color || "palevioletred"};
+    }
+  }
+
+  &.blank:hover {
+    opacity: 0.4;
+    cursor: pointer;
   }
 `;
 const Row = styled.div`
   width: 200000000px;
-  margin: 35px 0;
+  margin-top: -40px;
   display: flex;
   &:nth-child(2n) {
     margin-left: 50px;
   }
 `;
-const Hexagon = React.memo(({ item, hidden, showLabel }) => {
+const Hexagon = React.memo(({ item, showLabel }) => {
   return (
-    <HexagonWrapper color={!hidden ? item.color : "white"}>
+    <HexagonWrapper color="#d1d1d1">
+      <img src={process.env.PUBLIC_URL + `/images/${item.type}-${item.subType}.png`} alt="tier" />
       {showLabel && (
         <>
-          <div className="map-label">{item.value}</div>
           <div className="map-label">
             [{item.vector[0]}, {item.vector[1]}]
           </div>
@@ -53,17 +70,41 @@ const Hexagon = React.memo(({ item, hidden, showLabel }) => {
     </HexagonWrapper>
   );
 });
-function MapItem({ hexagonMap, showLabel, selected }) {
+
+const HexagonBlank = React.memo(({ item, showLabel, ...props }) => {
+  return (
+    <HexagonWrapper color={"#d9d9d9"} {...props} className="blank">
+      <div className="hex"></div>
+      {showLabel && (
+        <>
+          <div className="map-label">
+            [{item.vector[0]}, {item.vector[1]}]
+          </div>
+        </>
+      )}
+    </HexagonWrapper>
+  );
+});
+
+function MapItem({ hexagonMap, showLabel, selected, onExplore }) {
   if (!hexagonMap) {
     return null;
   }
+
+  const handleExplore = (item) => () => {
+    onExplore(item);
+  };
   return (
     <div>
       {hexagonMap?.map((row, x) => {
         return (
           <Row key={x}>
             {row.map((item) => {
-              return <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} hidden={!selected.includes(item.index)} />;
+              if (item.type === 0 || !selected.includes(item.type)) {
+                return <HexagonBlank key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} onClick={handleExplore(item)} />;
+              } else {
+                return <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} />;
+              }
             })}
           </Row>
         );
