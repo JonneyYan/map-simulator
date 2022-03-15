@@ -171,16 +171,18 @@ export default function TableInput({ onSubmit }) {
             </Select>
           </div>
           <div style={{ marginBottom: "10px" }}>
-            探索范围： <InputNumber value={count} onChange={setCount} /> 行
             <div>
+              地图大小: <InputNumber value={count} onChange={setCount} /> 行
+            </div>
+            <Space>
               输入坐标： X：
               <InputNumber value={coordX} onChange={setCoordX} />
               Y：
               <InputNumber value={coordY} onChange={setCoordY} />
               <Button onClick={submit} type="primary">
-                探索该坐标
+                移动 & 保存概率
               </Button>
-            </div>
+            </Space>
           </div>
           <div style={{ width: "800px" }}>
             <ReactDataSheet

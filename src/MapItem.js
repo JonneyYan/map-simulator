@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Tooltip } from "antd";
 
 const HexagonWrapper = styled.div`
   width: 100px;
@@ -42,7 +43,6 @@ const HexagonWrapper = styled.div`
       border-top: 20px solid ${(props) => props.color || "palevioletred"};
     }
   }
-
   &.blank:hover {
     opacity: 0.4;
     cursor: pointer;
@@ -56,17 +56,10 @@ const Row = styled.div`
     margin-left: 50px;
   }
 `;
-const Hexagon = React.memo(({ item, showLabel }) => {
+const Hexagon = React.memo(({ item, showLabel, ...props }) => {
   return (
-    <HexagonWrapper color="#d1d1d1">
+    <HexagonWrapper color="#d1d1d1" {...props}>
       <img src={process.env.PUBLIC_URL + `/images/${item.type}-${item.subType}.png`} alt="tier" />
-      {showLabel && (
-        <>
-          <div className="map-label">
-            [{item.vector[0]}, {item.vector[1]}]
-          </div>
-        </>
-      )}
     </HexagonWrapper>
   );
 });
@@ -75,13 +68,6 @@ const HexagonBlank = React.memo(({ item, showLabel, ...props }) => {
   return (
     <HexagonWrapper color={"#d9d9d9"} {...props} className="blank">
       <div className="hex"></div>
-      {showLabel && (
-        <>
-          <div className="map-label">
-            [{item.vector[0]}, {item.vector[1]}]
-          </div>
-        </>
-      )}
     </HexagonWrapper>
   );
 });
@@ -100,11 +86,15 @@ function MapItem({ hexagonMap, showLabel, selected, onExplore }) {
         return (
           <Row key={x}>
             {row.map((item) => {
-              if (item.type === 0 || !selected.includes(item.type)) {
-                return <HexagonBlank key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} onClick={handleExplore(item)} />;
-              } else {
-                return <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} />;
-              }
+              return (
+                <Tooltip title={`[${item.vector[0]},${item.vector[1]}]`}>
+                  {item.type === 0 || !selected.includes(item.type) ? (
+                    <HexagonBlank key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} onClick={handleExplore(item)} />
+                  ) : (
+                    <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} />
+                  )}
+                </Tooltip>
+              );
             })}
           </Row>
         );

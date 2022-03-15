@@ -110,6 +110,10 @@ export default function Map({ coord, probability, showLabel, mapSize }) {
         p.push({ value });
       }
     }
+    console.log(
+      `[${x},${y}]地块概率：`,
+      p.map((i) => i.value)
+    );
 
     const random = Math.ceil(Math.random() * total);
 
