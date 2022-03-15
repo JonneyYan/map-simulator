@@ -86,11 +86,11 @@ export default function Map({ coord, probability, showLabel, mapSize }) {
     const [x, y] = item.vector;
 
     const n1 = land[`${x}-${y - 1}`]?.type;
-    const n2 = land[`${x - 1}-${y - 1}`]?.type;
+    const n2 = land[`${x - 1}-${y}`]?.type;
     const n3 = land[`${x - 1}-${y + 1}`]?.type;
     const n4 = land[`${x}-${y + 1}`]?.type;
-    const n5 = land[`${x + 1}-${y}`]?.type;
-    const n6 = land[`${x + 1}-${y - 1}`]?.type;
+    const n5 = land[`${x + 1}-${y + 1}`]?.type;
+    const n6 = land[`${x + 1}-${y}`]?.type;
 
     if (!n1 && !n2 && !n3 && !n4 && !n5 && !n6) {
       p = probability[1].slice(1, 9);
