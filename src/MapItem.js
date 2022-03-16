@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Tooltip } from "antd";
 
@@ -64,22 +64,29 @@ const Hexagon = React.memo(({ item, showLabel, ...props }) => {
   );
 });
 
-const HexagonBlank = React.memo(({ item, showLabel, ...props }) => {
+const HexagonBlank = React.memo(({ item, showLabel, onClick, ...props }) => {
+  const handleClick = useCallback(() => {
+    onClick(item);
+  }, [item, onClick]);
+
   return (
-    <HexagonWrapper color={"#d9d9d9"} {...props} className="blank">
+    <HexagonWrapper color={"#d9d9d9"} onClick={handleClick} {...props} className="blank">
       <div className="hex"></div>
     </HexagonWrapper>
   );
 });
 
 function MapItem({ hexagonMap, showLabel, selected, onExplore }) {
+  const handleExplore = useCallback(
+    (item) => {
+      onExplore(item);
+    },
+    [onExplore]
+  );
   if (!hexagonMap) {
     return null;
   }
 
-  const handleExplore = (item) => () => {
-    onExplore(item);
-  };
   return (
     <div>
       {hexagonMap?.map((row, x) => {
@@ -87,13 +94,13 @@ function MapItem({ hexagonMap, showLabel, selected, onExplore }) {
           <Row key={x}>
             {row.map((item) => {
               return (
-                <Tooltip title={`[${item.vector[0]},${item.vector[1]}]`}>
+                <div title={`[${item.vector[0]},${item.vector[1]}]`}>
                   {item.type === 0 || !selected.includes(item.type) ? (
-                    <HexagonBlank key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} onClick={handleExplore(item)} />
+                    <HexagonBlank key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} onClick={handleExplore} />
                   ) : (
                     <Hexagon key={`${item.vector[0]}-${item.vector[1]}`} item={item} showLabel={showLabel} />
                   )}
-                </Tooltip>
+                </div>
               );
             })}
           </Row>

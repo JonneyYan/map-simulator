@@ -110,6 +110,7 @@ export default function Map({ coord, probability, showLabel, mapSize }) {
         p.push({ value });
       }
     }
+
     console.log(
       `[${x},${y}]地块概率：`,
       p.map((i) => i.value)
@@ -122,9 +123,20 @@ export default function Map({ coord, probability, showLabel, mapSize }) {
       const pp = p[index];
       sum += pp.value;
       if (sum >= random) {
+        let subType = (Math.ceil(Math.random() * 10) % TIER_IMAGES[type[index].index]) + 1;
+
+        if (type[index].index === 2) {
+          if ([n1, n2, n3, n4, n5, n6].find(item => item === 8)) {
+            subType = 2;
+          }
+          if ([n1, n2, n3, n4, n5, n6].find(item => item === 7)) {
+            subType = 3;
+          }
+        }
+
         return {
           type: type[index].index,
-          subType: (Math.ceil(Math.random() * 10) % TIER_IMAGES[type[index].index]) + 1,
+          subType,
         };
       }
     }
